@@ -1,20 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/views/home_view.dart';
+import 'package:todo_app/utilities/utils.dart';
+
+import 'views/home_view.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Todo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      darkTheme: ThemeData.dark(),
+          textTheme: const TextTheme(bodyText1: TextStyle(color: customBlue)),
+          shadowColor: Colors.white38,
+          primaryColor: Colors.white,
+          scaffoldBackgroundColor: const Color.fromRGBO(249, 251, 255, 1),
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              iconTheme: IconThemeData(color: customBlue),
+              titleTextStyle: TextStyle(
+                  color: customBlue, fontSize: 21, fontWeight: FontWeight.w600),
+              actionsIconTheme: IconThemeData(color: customBlue)),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            backgroundColor: Color.fromRGBO(229, 232, 249, 1),
+          )),
+      darkTheme: ThemeData.dark().copyWith(
+          textTheme: const TextTheme(bodyText1: TextStyle(color: Colors.white)),
+          shadowColor: Colors.grey,
+          primaryColor: Colors.black,
+          appBarTheme: const AppBarTheme(
+              elevation: 0,
+              titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600),
+              actionsIconTheme: IconThemeData(color: Colors.white)),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            backgroundColor: Color.fromRGBO(229, 232, 249, .5),
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              backgroundColor: Colors.grey)),
       themeMode: ThemeMode.system,
       home: const HomeView(),
     );
