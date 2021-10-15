@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/controllers/todo_controller.dart';
 import 'package:todo_app/utilities/utils.dart';
 
 class CreateTodoView extends StatefulWidget {
@@ -19,6 +20,8 @@ class _CreateTodoViewState extends State<CreateTodoView> {
   final TextEditingController _timeController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final TodoController _todoController = TodoController();
 
   @override
   Widget build(BuildContext context) {
@@ -148,14 +151,47 @@ class _CreateTodoViewState extends State<CreateTodoView> {
             ),
             const SizedBox(height: 35),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   print(_titleController.text);
                   print(_descriptionController.text);
                   print(_dateController.text);
                   print(_timeController.text);
+
+                  String date =
+                      _dateController.text + "" + _timeController.text;
+
+                  bool isSuccessful = await _todoController.createTodo(
+                      title: _titleController.text,
+                      description: _descriptionController.text,
+                      date: date);
+                  if (isSuccessful) {
+                    // something
+
+                    _timeController.clear();
+                    _descriptionController.clear();
+
+                    SnackBar snackBar = const SnackBar(
+                        content: Text(
+                      'Todo created successfully1',
+                      style: TextStyle(color: Colors.green),
+                    ));
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    // nothing
+                    SnackBar snackBar = const SnackBar(
+                        content: Text(
+                      'Todo failed',
+                      style: TextStyle(color: Colors.red),
+                    ));
+                  }
                 } else {
-                  print('please enter data');
+                  SnackBar snackBar = const SnackBar(
+                      content: Text(
+                    'All fields are required',
+                    style: TextStyle(color: Colors.blue),
+                  ));
                 }
               },
               child: const Text(
