@@ -10,6 +10,7 @@ class TodoController {
     Todo? _todo;
 
     await _todoService.getAllTodoRequest().then((response) {
+      print(response.body);
       int statusCode = response.statusCode;
       if (statusCode == 200) {
         // success
@@ -19,6 +20,7 @@ class TodoController {
         _todo = null;
       }
     }).catchError((onError) {
+      print(onError);
       _todo = null;
     });
     return _todo;
